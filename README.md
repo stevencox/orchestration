@@ -1,8 +1,8 @@
-#Skylr Orchestration
+#Mesos Orchestration
 
 ##Overview
 
-**Skylr Service Orchestrator** is a server that helps orchestrate instances
+**Service Orchestrator** is a server that helps orchestrate instances
 of jobs managed by our Marathon and Mesos cluster management installations.
 It is primarily a [Flask](http://flask.pocoo.org/) server that listens for
 several HTTP requests pertaining to Marathon job orchestration.  For example,
@@ -16,7 +16,7 @@ It performs the following actions:
 ##Installation
 Clone the repository:
 ```
-git clone git@github.com:LAS-NCSU/skylr-orchestration.git
+git clone git@github.com:stevencox/orchestration.git
 ```
 Run the setup script to install all the required modules:
 ```
@@ -52,19 +52,15 @@ Sample configuration:
 ```
 {
     "marathon_hosts" : [
-        "c0.skylr.renci.org:8080"
+        "stars-c0.edc.renci.org:8080"
     ],
     "services" : {
-        "skylr" : {
+        "evry" : {
             "port"     : 3000,
             "authConf" : "site_users"
         },
-        "extension" : {
-            "port" : 3002,
-            "backend_port" : 3002
-        },
         "chronos" : {
-            "port" : 8001
+            "port" : 4400
         }
     },
     "config_destination": "/etc/haproxy/haproxy.auto.cfg",
