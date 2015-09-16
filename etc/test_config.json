@@ -1,0 +1,21 @@
+{
+    "marathon_hosts" : [
+        "localhost:8080"
+    ],
+    "services" : {
+        "skylr" : {
+            "port"     : 4000,
+            "authConf" : "site_users"
+        },
+        "extension" : {
+            "port" : 4002,
+            "backend_port" : 4002
+        },
+        "chronos" : {
+            "port" : 4001
+        }
+    },
+    "config_destination": "/tmp/haproxy.test.cfg",
+    "users_config_destination": "/etc/haproxy/haproxy_users.cfg",
+    "pid_file": "/tmp/haproxy_test.pid"
+}

@@ -1,0 +1,21 @@
+{
+    "marathon_hosts" : [
+        "c0.skylr.renci.org:8080"
+    ],
+    "services" : {
+        "skylr" : {
+            "port"     : 3000,
+            "authConf" : "site_users"
+        },
+        "extension" : {
+            "port" : 3002,
+            "backend_port" : 3002
+        },
+        "chronos" : {
+            "port" : 8001
+        }
+    },
+    "config_destination": "/etc/haproxy/haproxy.auto.cfg",
+    "users_config_destination": "/etc/haproxy/haproxy_users.cfg",
+    "pid_file": "/var/run/haproxy.pid"
+}

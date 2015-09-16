@@ -1,0 +1,20 @@
+{
+    "marathon_hosts" : [
+        "las-mesos1.oscar.priv:8080",
+        "las-mesos2.oscar.priv:8080"
+    ],
+    "services" : {
+        "skylr" : {
+            "port"      : 3000
+        },
+        "chronos" : {
+            "port"      : 8001
+        },
+        "journaling" : {
+            "port"      :3003
+        }
+    },
+    "config_destination": "/etc/haproxy/haproxy.auto.cfg",
+    "users_config_destination": "/etc/haproxy/haproxy_users.cfg",
+    "pid_file": "/var/run/haproxy.pid"
+}
