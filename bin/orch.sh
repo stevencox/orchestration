@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-# For optimal results, run this from the base skyr-orchestration directory,
+# For optimal results, run this from the base orchestration directory,
 # e.g.:
 #
 # ./bin/orch.sh setup
@@ -9,11 +9,15 @@
 #
 
 # Environment variables
-VENV=/mnt/skylr/orchestration/v-orch
+#VENV=/mnt/skylr/orchestration/v-orch
+VENV=$PWD/venv #/mnt/skylr/orchestration/v-orch
 MAIN_PROJ=main
 MAIN_APP=$MAIN_PROJ:app
 ALL_PYs="./*.py ./bin/*.py ./orchestration/*.py ./test/*.py"
 ALL_PYCs="./*.pyc ./bin/*.pyc ./orchestration/*.pyc ./test/*.pyc"
+LOG_DIR=/var/log/orchestration
+
+set -x
 
 # Conditionally set environment variables
 [ -z $PORT ] && PORT=3030
@@ -77,10 +81,13 @@ function run () {
     # > ./bin/orch.sh run dev --config ./etc/local_config.json
     dev () {
         echo Running dev...
-        echo PLEASE NOTE, this script should be run with sudo
+#        echo PLEASE NOTE, this script should be run with sudo
         export DEBUG=True
-        cd /mnt/skylr/orchestration
-        python -m $MAIN_PROJ "$@" > /var/log/skylr-orchestration/skylr-orchestration.log 2>&1 &
+#        cd /mnt/skylr/orchestration
+        cd /opt/app/orchestration
+	mkdir -p $LOG_DIR
+#        python -m $MAIN_PROJ "$@" > $LOG_DIR/orchestration.log 2>&1 &
+        python -m $MAIN_PROJ "$@"
     }
 
     $*

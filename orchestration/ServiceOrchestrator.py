@@ -20,7 +20,7 @@ from marathon import Marathon
 logger = logging.getLogger('ServiceOrchestrator')
 handler = logging.handlers.SysLogHandler(address='/dev/log', facility=19)
 logger.addHandler(handler)
-SKYLR_HOME = os.environ.get('SKYLR_HOME', '/mnt/skylr/app/skylr')
+SKYLR_HOME = os.environ.get('ORCHESTRATION_HOME', '/opt/app/orchestration')
 
 class ServiceOrchestrator(object):
 

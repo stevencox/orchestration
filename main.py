@@ -69,12 +69,12 @@ def updateApp():
     Update the job running the given application(s) on Marathon.  POST body:
 
         {
-            "skylr": {
+            "appOne": {
                 "cpus": 0.3,
                 "mem": 16,
                 "instances": 3
             },
-            "extension": {
+            "appTwo": {
                 "cpus": 0.2,
                 "mem": 512,
                 "instances": 3
@@ -105,16 +105,15 @@ def setupServer():
     #if system is None:
     #    system = ServiceOrchestrator(CONFIG_FILE)
 
-def startServer():
+def startServer(configFile):
     """
-    Start the Flask server using some environment varils -al etc
-ables.
+    Start the Flask server using some environment varils -al etc ables.
     """
     setupServer()
     port = os.environ.get('PORT', 3030)
 
-    #system = ServiceOrchestrator(args.configFile)
-    system = ServiceOrchestrator(CONFIG_FILE)
+    system = ServiceOrchestrator(configFile)
+    #system = ServiceOrchestrator(CONFIG_FILE)
     system.startHaproxy()
 
     app.run(host='0.0.0.0', port=port)
@@ -139,7 +138,7 @@ def main():
 
     logger.info('Orchestrator server starting...')
 
-    startServer()
+    startServer(args.configFile)
     
     logger.info("Orchestrator server has stopped...")
 
