@@ -1,4 +1,5 @@
 #!/bin/bash
+
 #
 # For optimal results, run this from the base orchestration directory,
 # e.g.:
@@ -9,8 +10,9 @@
 #
 
 # Environment variables
-#VENV=/mnt/skylr/orchestration/v-orch
-VENV=$PWD/venv #/mnt/skylr/orchestration/v-orch
+ORCH_HOME=/opt/app/orchestration
+
+VENV=$ORCH_HOME/venv
 MAIN_PROJ=main
 MAIN_APP=$MAIN_PROJ:app
 ALL_PYs="./*.py ./bin/*.py ./orchestration/*.py ./test/*.py"
@@ -81,13 +83,11 @@ function run () {
     # > ./bin/orch.sh run dev --config ./etc/local_config.json
     dev () {
         echo Running dev...
-#        echo PLEASE NOTE, this script should be run with sudo
         export DEBUG=True
-#        cd /mnt/skylr/orchestration
-        cd /opt/app/orchestration
+        cd $ORCH_HOME
 	mkdir -p $LOG_DIR
-#        python -m $MAIN_PROJ "$@" > $LOG_DIR/orchestration.log 2>&1 &
-        python -m $MAIN_PROJ "$@"
+        python -m $MAIN_PROJ "$@" > $LOG_DIR/orchestration.log 2>&1 &
+	exit 0
     }
 
     $*
