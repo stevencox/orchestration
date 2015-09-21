@@ -66,7 +66,7 @@ function cover  () {
 
 # Run either production or dev
 function run () {
-    activate_venv;
+    #activate_venv;
 
     # In production, use gunicorn
     # NOTE: If you run this locally, then set the CONFIG_FILE correctly:
@@ -86,6 +86,7 @@ function run () {
         export DEBUG=True
         cd $ORCH_HOME
 	mkdir -p $LOG_DIR
+	source /projects/stars/venv/bin/activate
         python -m $MAIN_PROJ "$@" > $LOG_DIR/orchestration.log 2>&1 &
 	exit 0
     }
