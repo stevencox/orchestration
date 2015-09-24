@@ -3,6 +3,9 @@
         "stars-c0.edc.renci.org:8080"
     ],
     "services" : {
+	"evry" : {
+	    "port" : 5000
+	},
         "chronos" : {
             "port" : 4400
         }

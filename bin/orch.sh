@@ -87,6 +87,7 @@ function run () {
         cd $ORCH_HOME
 	mkdir -p $LOG_DIR
 	source /projects/stars/venv/bin/activate
+	export CONFIG_FILE=$ORCH_HOME/etc/local_config.json
         python -m $MAIN_PROJ "$@" > $LOG_DIR/orchestration.log 2>&1 &
 	exit 0
     }

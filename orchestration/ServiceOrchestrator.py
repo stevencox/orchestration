@@ -20,7 +20,7 @@ from marathon import Marathon
 logger = logging.getLogger('ServiceOrchestrator')
 handler = logging.handlers.SysLogHandler(address='/dev/log', facility=19)
 logger.addHandler(handler)
-SKYLR_HOME = os.environ.get('ORCHESTRATION_HOME', '/opt/app/orchestration')
+ORCH_HOME = os.environ.get('ORCH_HOME', '/opt/app/orchestration')
 
 class ServiceOrchestrator(object):
 
@@ -138,10 +138,17 @@ ${wsServices}
         return self.isAppTracked(appId) and self.isApprovedHost(ipAddr)
 
     def isApprovedHost(self, ipAddr):
-        return ipAddr in self.approvedHosts
+        approved = ipAddr in self.approvedHosts
+        logger.info ("Approved host {0}: {1}".format (ipAddr, approved))
+        return approved
 
     def isAppTracked(self, appId):
-        return appId in self.services
+        tapp = appId[1:] if appId.startswith ('/') else appId
+        logger.info ("Testing is tracked for {0}".format (tapp))
+        logger.info ("services: {0}".format (self.services))
+        tracked = tapp in self.services
+        logger.info ("Tracked: {0}".format (tracked))
+        return tracked
 
     def gen(self):
         apps = self.cluster.getApps()
@@ -150,7 +157,10 @@ ${wsServices}
         for app in apps:
             appId = app['id']
 
+            appId = appId[1:] if appId.startswith ('/') else appId
+
             if not appId in self.services:
+                logger.info ("Ignoring app {0} not in listed services".format (appId))
                 continue
 
             app = self.services[appId]
@@ -184,8 +194,10 @@ ${wsServices}
                     for task in tasks:
                         # NOTE: The method of getting the appId below is quirky to support
                         # two different versions of marathon. The latest uses 'appId'.
+                        aid = task.get('appId', task.get('appID', 'app'))
+                        aid = aid[1:] if aid.startswith ('/') else iad
                         context = {
-                            "id" : "%s-%s" % (task.get('appId', task.get('appID', 'app')), c),
+                            "id" : "%s-%s" % (aid, c),
                             "host" : task['host'],
                             "port" : backend_port if backend_port else task['ports'][0]
                         }
@@ -220,7 +232,7 @@ ${wsServices}
         configText = self.gen()
         tmpConfig = self.writeTmpConfig(configText)
 
-        #subprocess.call("sudo cp {0} {1}".format(tmpConfig, self.configDest).split(" "))
+        logger.info("Copying temp config to destination: {0}".format(self.configDest))
         subprocess.call("cp {0} {1}".format(tmpConfig, self.configDest).split(" "))
 
         return True
@@ -229,7 +241,7 @@ ${wsServices}
         """
         A method to write the temporary config file.
         """
-        tmpConfig = os.path.join(SKYLR_HOME, 'haproxy.cfg')
+        tmpConfig = os.path.join(ORCH_HOME, 'haproxy.cfg')
 
         with open(tmpConfig, "w") as output:
             output.write(configText)
@@ -268,6 +280,7 @@ ${wsServices}
 
         # TODO: Should probably throw an error here.
         if not self.validRequest(ipAddr, appId):
+            logger.info('reloadHaproxy rejecting invalid event')
             print 'Not valid!!'
             return False
 
