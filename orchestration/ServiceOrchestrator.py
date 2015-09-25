@@ -69,7 +69,7 @@ ${services}
     httpT = Template("""
 frontend http-in-${id}
     bind :${port}
-    reqadd X-Forwarded-Proto:\ https
+#    reqadd X-Forwarded-Proto:\ https
     acl is_websocket hdr(Connection)  -i Upgrade
     acl is_websocket path_beg /socket.io
     acl is_websocket hdr(Upgrade) -i WebSocket
@@ -257,14 +257,14 @@ ${wsServices}
                 stdout=subprocess.PIPE)
             pid = proc.stdout.read()
 
-        #command = "sudo haproxy -f {0} -f {1} -p {2} -D".format(
-        command = "haproxy -f {0} -f {1} -p {2} -D".format(
-            self.configDest, self.usersConfig, self.pidFile)
+#        command = "haproxy -f {0} -f {1} -p {2} -D".format(
+#            self.configDest, self.usersConfig, self.pidFile)
+        command = "sudo haproxy -f {0} -p {1} -D".format(
+            self.configDest, self.pidFile)
 
         if pid:
-            #command = "sudo haproxy -f {0} -f {1} -p {2} -D -st {3}".format(
-            command = "haproxy -f {0} -f {1} -p {2} -D -st {3}".format(
-                self.configDest, self.usersConfig, self.pidFile, pid)
+            command = "sudo haproxy -f {0} -p {1} -D -st {2}".format(
+                self.configDest, self.pidFile, pid)
 
         logger.info("Restarting HAProxy with commmand: {0}".format(command))
         subprocess.call(command.split(" "))
@@ -281,13 +281,11 @@ ${wsServices}
         # TODO: Should probably throw an error here.
         if not self.validRequest(ipAddr, appId):
             logger.info('reloadHaproxy rejecting invalid event')
-            print 'Not valid!!'
             return False
 
         logger.info('App is tracked, and host is correct, proceeding with config rewrite...')
 
         ok = self.refreshConfig()
-
         if ok:
             self.restartHAProxy()
 
