@@ -1,14 +1,12 @@
 {
     "marathon_hosts" : [
-        "stars-c0.edc.renci.org:8080"
+        "stars-c0.edc.renci.org:8080",
+        "stars-c1.edc.renci.org:8080"
     ],
     "services" : {
-	"evry" : {
-	    "port" : 5000,
-	    "backend_port" : 5000
-	},
-        "chronos" : {
-            "port" : 4400
+        "evry" : {
+            "port"         : 5000,
+            "backend_port" : 5000
         }
     },
     "config_destination": "/etc/haproxy/haproxy.auto.cfg",
