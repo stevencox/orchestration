@@ -4,11 +4,12 @@
         "stars-c1.edc.renci.org:8080"
     ],
     "services" : {
+<<<<<<< HEAD
         "evry" : {
             "port"         : 5000,
             "backend_port" : 5000
         },
-        "ncats-exposures" : {
+        "ncats-exposures-api" : {
             "port"         : 8888,
             "backend_port" : 8888
         }

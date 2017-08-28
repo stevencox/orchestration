@@ -58,10 +58,12 @@ defaults
     timeout check           10s
     maxconn                 3000
 
-listen stats *:8082
+listen stats :8082
+    mode http
     stats enable
+    stats hide-version
+    stats uri /
     stats auth     username:password
-    stats uri      /proxy_stats
     stats realm    PAGE TITLE
 ${services}
 """)

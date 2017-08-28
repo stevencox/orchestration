@@ -1,6 +1,6 @@
-#Mesos Orchestration
+# Mesos Orchestration
  
-##Overview
+## Overview
 
 **Service Orchestrator** is a server that helps orchestrate instances
 of jobs managed by our Marathon and Mesos cluster management installations.
@@ -13,7 +13,7 @@ It performs the following actions:
  * Receives update events in the form of HTTP POST requests from Marathon and rewrites an HAProxy configuration file based on the server locations of the new application instances.
  * Receives update events in the form of HTTP POST requests from an outside source and posts them to Marathon, to change the configuration for a job on Marathon.
 
-##Installation
+## Installation
 Clone the repository:
 ```
 git clone git@github.com:stevencox/orchestration.git
@@ -30,12 +30,9 @@ Or run the server in production mode:
 ```
 ./bin/orch.sh run prod
 ```
-Opening a firewall port on Fedora 20:
-```
-sudo firewall-cmd --zone=public --add-port --port=3000/tcp
-```
+Remember to configure your firewall appropriately to allow connections to the machine the service runs on.
 
-##Testing
+## Testing
 
 VirtualEnv must be activated for the unit testing script:
 ```
@@ -43,7 +40,7 @@ VirtualEnv must be activated for the unit testing script:
 ./bin/orch.sh test
 ```
 
-##Configuration
+## Configuration
 
 The configuration files in the */etc* directory contain a few variables that will
 need to change based on your environment.
