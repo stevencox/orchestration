@@ -8,9 +8,13 @@
             "port"         : 5000,
             "backend_port" : 5000
         },
-        "ncats-exposures-api" : {
+        "ncats-exposures" : {
             "port"         : 8888,
             "backend_port" : 8888
+        },
+        "greent" : {
+            "port"         : 5001,
+            "backend_port" : 5000
         }
     },
     "config_destination": "/etc/haproxy/haproxy.auto.cfg",
